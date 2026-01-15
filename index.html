@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAMBE PRIMA SENSI</title>
+    <style>
+        :root {
+            --primary-red: #ff0000;
+            --dark-bg: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --text-white: #ffffff;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-white);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        /* TELA DE ENTRADA CORRIGIDA */
+        #welcome-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 90vh;
+            text-align: center;
+        }
+
+        .welcome-img {
+            width: 90%;
+            max-width: 300px;
+            border-radius: 20px;
+            border: 3px solid var(--primary-red);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .title-main {
+            color: var(--primary-red);
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin: 0 0 25px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn-entrar {
+            background-color: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 18px 60px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .btn-entrar:active { transform: scale(0.95); }
+
+        /* MENU PRINCIPAL E TELAS */
+        #main-menu, #sensi-famous, #weapon-sensi, #dpi-android, #cycles-iphone, #random-sensi {
+            display: none;
+        }
+
+        .app-header {
+            color: var(--primary-red);
+            font-size: 1.8rem;
+            text-align: center;
+            margin: 20px 0;
+            text-transform: uppercase;
+        }
+
+        .menu-card {
+            background: var(--card-bg);
+            margin-bottom: 12px;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .menu-card h3 { color: var(--primary-red); margin: 0; font-size: 1rem; text-transform: uppercase; }
+        .menu-card p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.6; }
+
+        /* ESTILO DOS RESULTADOS */
+        .grid-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 15px 0; }
+        .chip { background: #252525; padding: 12px; border-radius: 8px; font-size: 0.85rem; cursor: pointer; text-align: center; border: 1px solid #444; }
+        .chip:hover { border-color: var(--primary-red); color: var(--primary-red); }
+
+        .sensi-result {
+            background: #000;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--primary-red);
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+
+        .val-red { color: var(--primary-red); font-weight: bold; float: right; font-size: 1.1rem; }
+        .back-btn { display: block; text-align: center; margin-top: 25px; color: #666; cursor: pointer; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div id="welcome-screen">
+            <img src="https://i.imgur.com/vH9F7PZ.png" class="welcome-img" alt="Foto Inicial">
+            <h1 class="title-main">LAMBE PRIMA</h1>
+            <button class="btn-entrar" onclick="goToMenu()">ENTRAR</button>
+        </div>
+
+        <div id="main-menu">
+            <h2 class="app-header">LAMBE PRIMA sensi</h2>
+            <div class="menu-card" onclick="showScreen('sensi-famous')">
+                <h3>Sensi dos Famosos</h3>
+                <p>Configurações inspiradas nos pros</p>
+            </div>
+            <div class="menu-card" onclick="showScreen('random-sensi')">
+                <h3>Gerar Sensi Aleatória</h3>
+                <p>Crie sua sensi personalizada</p>
+            </div>
+            <div class="menu-card" onclick="showScreen('weapon-sensi')">
+                <h3>Sensibilidade por Arma</h3>
+                <p>Sensi focada na sua arma favorita</p>
+            </div>
+            <div class="menu-card" onclick="showScreen('dpi-android')">
+                <h3>DPI (Android)</h3>
+                <p>Ajuste por marca: Samsung, Xiaomi, etc.</p>
+            </div>
+            <div class="menu-card" onclick="showScreen('cycles-iphone')">
+                <h3>Ciclos (iPhone)</h3>
+                <p>Escolha seu modelo e gere ciclos</p>
+            </div>
+        </div>
+
+        <div id="sensi-famous">
+            <h2 class="app-header">Sensi: LAMBE PRIMA</h2>
+            <div class="grid-options">
+                <div class="chip" onclick="genFamous('Lambe Prima', 198, 194, 188, 200)">Lambe Prima</div>
+                <div class="chip" onclick="genFamous('Nobru', 175, 180, 160, 170)">Nobru</div>
+                <div class="chip" onclick="genFamous('Bak', 185, 190, 175, 180)">Bak</div>
+                <div class="chip" onclick="genFamous('Two9', 200, 200, 195, 190)">Two9</div>
+            </div>
+            <div id="famous-result"></div>
+            <div class="back-btn" onclick="goToMenu()">← Voltar ao Menu</div>
+        </div>
+
+        <div id="weapon-sensi">
+            <h2 class="app-header">Armas Favoritas</h2>
+            <div class="grid-options">
+                <div class="chip" onclick="genWeapon('UMP', 98, 55)">UMP</div>
+                <div class="chip" onclick="genWeapon('XM8', 92, 48)">XM8</div>
+                <div class="chip" onclick="genWeapon('Águia', 100, 60)">Águia do Deserto</div>
+                <div class="chip" onclick="genWeapon('M1014', 95, 50)">M1014</div>
+                <div class="chip" onclick="genWeapon('Carapina', 88, 42)">Carapina</div>
+            </div>
+            <div id="weapon-result"></div>
+            <div class="back-btn" onclick="goToMenu()">← Voltar ao Menu</div>
+        </div>
+
+        <div id="dpi-android">
+            <h2 class="app-header">DPI por Marca</h2>
+            <div class="grid-options">
+                <div class="chip" onclick="genDpi('Samsung', 916)">Samsung</div>
+                <div class="chip" onclick="genDpi('Xiaomi', 438)">Xiaomi</div>
+                <div class="chip" onclick="genDpi('Redmi', 438)">Redmi</div>
+                <div class="chip" onclick="genDpi('Tecno', 916)">Tecno</div>
+            </div>
+            <div id="dpi-result"></div>
+            <div class="back-btn" onclick="goToMenu()">← Voltar ao Menu</div>
+        </div>
+
+        <div id="cycles-iphone">
+            <h2 class="app-header">Ciclos iPhone</h2>
+            <label style="font-size: 0.8rem; opacity: 0.6;">Escolha seu iPhone:</label>
+            <select id="iphone-model" style="width:100%; padding:15px; background:#222; color:white; border:1px solid #444; border-radius:8px; margin:10px 0;">
+                <option>iPhone X</option><option>iPhone 11</option><option>iPhone 12</option>
+                <option>iPhone 13</option><option>iPhone 14</option><option>iPhone 15</option>
+                <option>iPhone 16</option><option>iPhone 17</option>
+            </select>
+            <button class="btn-entrar" style="width:100%;" onclick="genCycle()">GERAR CICLO</button>
+            <div id="cycle-result"></div>
+            <div class="back-btn" onclick="goToMenu()">← Voltar ao Menu</div>
+        </div>
+
+        <div id="random-sensi">
+            <h2 class="app-header">Sensi Aleatória</h2>
+            <button class="btn-entrar" style="width:100%; margin-bottom:10px;" onclick="genRandom('Android')">ANDROID</button>
+            <button class="btn-entrar" style="width:100%;" onclick="genRandom('iPhone')">IPHONE</button>
+            <div id="random-result"></div>
+            <div class="back-btn" onclick="goToMenu()">← Voltar ao Menu</div>
+        </div>
+
+    </div>
+
+    <script>
+        function hideAll() {
+            ['welcome-screen', 'main-menu', 'sensi-famous', 'weapon-sensi', 'dpi-android', 'cycles-iphone', 'random-sensi']
+            .forEach(id => document.getElementById(id).style.display = 'none');
+        }
+
+        function goToMenu() { hideAll(); document.getElementById('main-menu').style.display = 'block'; }
+        function showScreen(id) { hideAll(); document.getElementById(id).style.display = 'block'; }
+
+        function genFamous(name, g, r, m2, m4) {
+            document.getElementById('famous-result').innerHTML = `
+                <div class="sensi-result">
+                    <strong>PERFIL: ${name}</strong><br>
+                    Geral: <span class="val-red">${g}</span><br>
+                    Red Dot: <span class="val-red">${r}</span><br>
+                    Mira 2x: <span class="val-red">${m2}</span><br>
+                    Mira 4x: <span class="val-red">${m4}</span>
+                </div>`;
+        }
+
+        function genWeapon(weapon, sensi, btn) {
+            document.getElementById('weapon-result').innerHTML = `
+                <div class="sensi-result">
+                    <strong>ARMA: ${weapon}</strong><br>
+                    Sensibilidade: <span class="val-red">${sensi}</span><br>
+                    Tamanho do Botão: <span class="val-red">${btn}%</span>
+                </div>`;
+        }
+
+        function genDpi(brand, val) {
+            let desc = val > 500 ? "Sensi Média" : "Sensi Alta";
+            document.getElementById('dpi-result').innerHTML = `
+                <div class="sensi-result">
+                    <strong>MARCA: ${brand}</strong><br>
+                    DPI Recomendada: <span class="val-red">${val}</span><br>
+                    Tipo: <span class="val-red">${desc}</span>
+                </div>`;
+        }
+
+        function genCycle() {
+            let model = document.getElementById('iphone-model').value;
+            let cycle = Math.floor(Math.random() * 10) + 1;
+            document.getElementById('cycle-result').innerHTML = `
+                <div class="sensi-result">
+                    <strong>${model}</strong><br>
+                    Configuração de Ciclo: <span class="val-red">${cycle}</span><br>
+                    Status: <span class="val-red">Otimizado</span>
+                </div>`;
+        }
+
+        function genRandom(type) {
+            let r = () => Math.floor(Math.random() * 100) + 100;
+            document.getElementById('random-result').innerHTML = `
+                <div class="sensi-result">
+                    <strong>Sensi Aleatória (${type})</strong><br>
+                    Geral: <span class="val-red">${r()}</span><br>
+                    Red Dot: <span class="val-red">${r()}</span><br><br>
+                    <button onclick="genRandom('${type}')" style="background:none; border:1px solid red; color:red; padding:5px 10px; cursor:pointer; width:100%">GERAR DE NOVO</button>
+                </div>`;
+        }
+    </script>
+</body>
+</html>
